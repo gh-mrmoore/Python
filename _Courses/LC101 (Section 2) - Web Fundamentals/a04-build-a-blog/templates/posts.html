@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block pagetitle %}
+
+{% if request.args.get('blog_id') %}
+    {% if blogs|length == 0 %}
+        <title>No Data transferred?</title>
+    {% else %}
+        {% for blog in blogs %}
+            <title>Editing: {{blog.title}}</title>
+        {% endfor %}
+    {% endif %}
+{% else %}
+    <title>All blogs</title>
+{% endif %}
+
+{% endblock %}
+
+
+{# request.args.get('blog_id') #}
+{% block content %}
+
+{% if request.args.get('blog_id') %}
+
+    <h1>Single Blog Posting</h1>
+    {% if blogs|length == 0 %}
+        <p>No Data transferred?</p>
+    {% else %}
+        {% for blog in blogs %}
+            <h2>{{blog.title}}</h2>
+            <p>{{blog.blog_body}}</p>
+            <hr />
+            <ul class="fa-ul">
+                <li><a class="body" href="/blogs?blog_id={{blog.id}}" title="Mark this posting as read."><span class="far fa-envelope-open"></span> Mark as Read</a></li>
+                <li><a class="body" href="/edit?blog_id={{blog.id}}" title="Edit this posting."><span class="far fa-edit"></span> Edit Posting</a></li>
+            </ul>
+        {% endfor %}
+    {% endif %}
+
+{% else %}
+
+    <h1>Existing Blog Posts</h1>
+    {% if blogs|length == 0 %}
+        <p>No blog postings yet.</p>
+    {% else %}
+        <ul class="fa-ul">
+            {% for blog in blogs %}
+                <h2>{{blog.title}}</h2>
+                <p>{{blog.blog_body}}</p>
+                <ul style="margin: 0px; padding: 0px; list-style-type: none; display: inline-block; clear: both;">
+                    {% if blog.blogread == 1 %}
+                        <li style="padding-right: 5px; float: left; display: inline-block;"><span class="far fa-envelope" style="font-size:110%;color:forestgreen;"></span></li>
+                    {% else %}
+                        <li style="padding-right: 5px; float: left; display: inline-block;"><span class="far fa-envelope-open" style="font-size:110%;color:red;"></span></li>
+                    {% endif %}
+                    <li style="padding-right: 5px; float: left; display: inline-block;"><a class="body" href="/blogs?blog_id={{blog.id}}" title="Open this specific blog posting."><span class="fas fa-external-link-alt"></span></a></li>
+                    <li style="float: left; display: inline-block;"><a class="body" href="/edit?blog_id={{blog.id}}" title="Edit this specific blog posting."><span class="far fa-edit"></span></a></li>
+                </ul>
+                <hr />
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endif %}
+
+{% endblock %}

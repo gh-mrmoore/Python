@@ -1,0 +1,94 @@
+@app.route('/blogs', methods=['GET'])
+def readblog():
+
+    if request.args.get('blog_id'):
+        blog_id = int(request.args.get('blog_id'))
+        blogs = Blogs.query.filter_by(id=blog_id).all()
+        return redirect(url_for('single_posting', id=blog_id))
+        #return str(blog_id)
+        #return redirect('blogpost?blog_id={0}'.format(blog_id))
+        #redirect_string = '/blogs?blog_id={0}'.format(blog_id)
+        #return redirect(redirect_string)
+        #return redirect('/blogs?blog_id={0}'.format(blog_id))
+        #return redirect('/blogs?blog_id={0}'.format(blog_id), page_title='Blog Posts', blogs=blogs)
+    else:
+        blogs = Blogs.query.order_by('id desc').all()
+        return render_template('posts.html', page_title='Blog Posts', blogs=blogs)   #display all the blog entries
+
+#create path for an individual blog post
+@app.route('/blogs' + '?id=' + '<id>')
+def single_posting(id):
+    #return id
+    blogid = int(id)
+    blogs = Blogs.query.filter_by(id=blogid).all()
+    return render_template('posts.html', page_title='Single Post', blogs=blogs)
+
+
+
+
+
+
+
+        <!--<form action="/blog-read" method="POST" style="display: inline-block;">
+            <input type="hidden" name="blog-id" value="{{blog.id}}" />
+            <input type="submit" value="Read!" />
+        </form>-->
+
+
+
+                <!--<form action="/blog-read" method="POST" style="display: inline-block;">
+                    <input type="hidden" name="blog-id" value="{{blog.id}}" />
+                    <input type="submit" value="Read!" />
+                </form>-->
+*******************************************************************************************************************************************
+working copy of posts.html with some extraneous pieces for debugging purposes
+
+{% extends "base.html" %}
+
+
+{# request.args.get('blog_id') #}
+{% block content %}
+
+{% if request.args.get('blog_id') %}
+
+    <h1>Single Blog Posting</h1>
+    {% if blogs|length == 0 %}
+    <p>No Data transferred?</p>
+    <p>Blog ID: {{blog_id}}</p>
+    {% else %}
+    {% for blog in blogs %}
+    <h2>Title: {{blog.title}}</h2>
+        <p>{{blog_id}}</p>
+        <p>{{sblog}}</p>
+        <p>{{blog.blog_body}}</p>
+        <hr />
+        <ul class="fa-ul">
+            <li><span class="far fa-envelope-open"></span>Mark as Read</li>
+            <li></li><span class="far fa-edit"></span>Edit Posting</li>
+        </ul>
+    {% endfor %}
+    {% endif %}
+
+{% else %}
+
+    <h1>Existing Blog Posts</h1>
+    {% if blogs|length == 0 %}
+    <p>No blog postings yet.</p>
+    {% else %}
+        <p style="color: #ff0000">{{blogs}}</p>
+        <ul class="fa-ul">
+            {% for blog in blogs %}
+            <li><span class="far fa-envelope" style="font-size:110%;color:forestgreen;"></span> <a class="body" href="/blogs?blog_id={{blog.id}}"><strong>{{blog.title}}</strong></a>
+            <br />
+            {{blog.blog_body}}<br />
+            <span class="fas fa-external-link-alt"></span></li>
+            <hr />
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endif %}
+
+{% endblock %}
+
+*******************************************************************************************************************************************

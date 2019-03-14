@@ -1,0 +1,95 @@
+*
+{
+    box-sizing: border-box;
+}
+
+body
+{
+    font-family: Arial;
+    margin: 0;
+}
+
+.header
+{
+    padding: 60px;
+    text-align: center;
+    background-color: #f1f1f1;
+    color: #ffffff;
+	background-image: url('books-library-students-12064_cropped.jpg');
+	background-repeat: no-repeat;
+	background-size: 100%;
+	font-size: 200%;
+	font-weight: bolder;
+}
+
+/* Container for flex columns */
+.row
+{  
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Create two unequal columns that sits next to each other */
+/* Sidebar/left column */
+.side
+{
+    flex: 20%;
+    background-color: #fafad2;
+    padding: 20px;
+}
+
+/* Main column */
+.main
+{
+    flex: 80%;
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+.footer
+{
+    padding: 20px;
+    text-align: center;
+    color: #fff5ee;
+    background: #8b4513;
+}
+
+a
+{
+    color: #8b4513;
+    text-decoration: none;
+}
+
+a:hover
+{
+    font-weight: bold;
+}
+
+.error
+{
+    color: #ff0000;
+    font-weight: bolder;
+}
+
+ul.editbar
+{
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    display: inline-block;
+    clear: both;
+}
+
+li.barbutton
+{
+    padding-right: 5px;
+    float: left;
+    display: inline-block;
+}
+
+/* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
+    .row, .navbar {   
+        flex-direction: column;
+    }
+}

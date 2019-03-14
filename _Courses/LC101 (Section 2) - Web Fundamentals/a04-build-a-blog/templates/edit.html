@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block pagetitle %}
+    <title>Edit Away!</title>
+{% endblock %}
+
+{% block content %}
+
+{% if request.args.get('blog_id') %}
+
+    <h1>Edit Blog Posting</h1>
+    {% if blogs|length == 0 %}
+        <p>No Data transferred?</p>
+    {% else %}
+        {% for blog in blogs %}
+            <form method="post" action="/edit">
+                <p><label for="entry_title">Entry Title</label><br />
+                    <input name="entry_title" type="text" value="{{blog.title}}" />
+                    <span class="error">{{title_error}}</span>
+                    </p>
+            
+                    <p><label for="blog_body">Blog Entry</label><br />
+                    <textarea name="blog_body" type="textarea" cols="20" rows="3">{{blog.blog_body}}</textarea>
+                    <span class="error">{{body_error}}</span>
+                    </p>
+
+                    <input type="hidden" name="blog_id" id="blog_id" value="{{blog.id}}" />
+            
+                    <input type="submit" value="Edit It!" />
+            </form>
+            
+        {% endfor %}
+    {% endif %}
+
+{% else %}
+
+    <h1>Existing Blog Posts</h1>
+    {% if blogs|length == 0 %}
+        <p>No blog postings yet.</p>
+    {% else %}
+        <ul class="fa-ul">
+            {% for blog in blogs %}
+            <li><span class="far fa-envelope" style="font-size:110%;color:forestgreen;"></span> <strong>{{blog.title}}</strong>
+            <br />
+            {{blog.blog_body}}<br />
+            <a class="body" href="/edit?blog_id={{blog.id}}"><span class="fas fa-external-link-alt"></span></a></li>
+            <hr />
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endif %}
+
+{% endblock %}

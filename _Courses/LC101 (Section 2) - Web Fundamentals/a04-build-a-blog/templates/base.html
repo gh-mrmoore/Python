@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+	
+	{% block pagetitle %}
+	{% endblock %}
+</head>
+
+<body>
+	<header>{{page_title}}</header>
+	<nav class="row">
+		<ul class="nav">
+			<li class="nav"><a href="/">Log In (Home)</a></li>
+			<li class="nav"><a href="/?logout">Log Out</a></li>
+			<li class="nav"><a href="/newpost">New Post</a></li>
+			<li class="nav"><a href="/blogs">All Posts</a></li>
+		</ul>
+	</nav>
+	<main class="row">
+		<div class="column" id="main_column">
+            {% block content %}
+            {% endblock %}
+		</div>
+		<div class="column" id="right_column"></div>
+	</main>
+	<footer>&copy; Matthew Moore, 2018</footer>
+</body>
+
+</html>

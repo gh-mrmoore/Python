@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block pagetitle %}
+    {% if request.args.get('blog_id') %}
+        {% for item in blogs.item %}
+            <title>Viewing: {{item.title}}</title>
+        {% endfor %}
+    {% elif request.args.get('user_id') %}
+        <title>Blogz Page for Individual User</title>
+    {% else %}
+        <title>All Blogz</title>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    {% if request.args.get('blog_id') %}
+        <h1>Single Blogz Posting</h1>
+    {% elif request.args.get('user_id') %}
+        <h1>Blogz for Author</h1>
+    {% else %}
+        <h1>All Public Blogz Posts</h1>
+    {% endif %}
+
+    {% for item in blogs.items %}
+        <h2>{{item.title}}</h2>
+        <h3>Posted: {{item.blogDate.strftime('%m-%d-%Y')}} by <a href="blogs?user_id={{item.author}}" title="Click to see this all user postings">{{item.owner.useremail}}</a></h3>
+        <p>{{item.blog_body}}</p>
+        <ul class="editbar">
+            {% if session['user_id'] == item.author %}
+                <li class="barbutton"><a class="body" href="/edit?blog_id={{item.id}}" title="Edit this posting."><span class="far fa-edit"></span></a></li>
+            {% endif %}
+            <li class="barbutton"><a class="body" href="/blogs?blog_id={{item.id}}" title="View this specific post."><span class="fas fa-external-link-alt"></span></a></li>
+            {% if not item.public %}
+                <li class="barbutton"><span title="Private Posting" class="fas fa-user-secret"></span></li>
+            {% endif %}
+        </ul>
+        <hr />
+    {% endfor %}
+
+    {% if blogs.has_next and blogs.has_prev %}
+        <p><a href="{{prev_url}}">Previous (p{{blogs.prev_num}})</a> | <a href="{{next_url}}">Next (p{{blogs.next_num}})</a></p>
+    {% elif blogs.has_next and not blogs.has_prev %}
+        <p>Beginning | <a href="{{next_url}}">Next (p{{blogs.next_num}})</a></p>
+    {% elif blogs.has_prev and not blogs.has_next %}
+        <p><a href="{{prev_url}}">Previous (p{{blogs.prev_num}})</a> | Last Page</p>
+    {% else %}
+        <p>No Pagination Necessary</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,46 @@
+    if not request.args.get('blog_id'):
+        blogs = Blogs.query.order_by('id desc').all()
+        page_title = 'Blog Posts'
+    else:
+        blog_id = int(request.args.get('blog_id'))
+        blogs = Blogs.query.filter_by(id=blog_id).all()
+        page_title = 'Single Post'
+    return render_template('edit.html', page_title=page_title, blogs=blogs)
+
+    if request.method == 'POST':
+        #get variables from the submitted form
+        new_blog_title = html.escape(request.form['entry_title'])
+        new_blog_entry = html.escape(request.form['blog_body'])
+
+        #pass variables to the error-checking function
+        new_title_error_check = error_check(new_blog_title)
+        new_body_error_check = error_check(new_blog_entry)
+
+        #check the entries for length
+        if new_title_error_check != 'valid!' or new_body_error_check != 'valid!':
+            new_title_error = 'Your title edit was ' + new_title_error_check
+            new_body_error = 'Your blog body edit was ' + new_body_error_check
+        else:
+            new_title_error = ''
+            new_body_error = ''
+        
+        if  title_error or body_error:   #go back to the posting form after an invalid posting
+            return render_template('newpost.html', 
+            page_title='Edit Your Post', 
+            entry_title=blog_title, 
+            blog_bodytext=blog_entry, 
+            title_error=new_title_error, 
+            body_error=new_body_error)
+        else:
+        #working version taken from the /newpost route
+            #new_post = Blogs(blog_title, blog_entry)
+        #example from https://stackoverflow.com/questions/6699360/flask-sqlalchemy-update-a-rows-information
+            #admin = User.query.filter_by(username='admin').update(dict(email='my_new_email@example.com')))
+        #my re-factoring for new_post based on the example found on-line
+            new_post = Blogs.query.filter_by(id=blog_id).update(blog_title=new_blog_title)
+            db.session.add(new_post)
+            db.session.commit()
+
+            return redirect('/blogs?blog_id={0}'.format(newest_post_id))   #go to the specific blog page after successful posting
+    else:
+        return render_template('edit.html', page_title='Create Your New Post')

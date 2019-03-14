@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block pagetitle %}
+    <title>Blog Away!</title>
+{% endblock %}
+
+
+{% block content %}
+
+    <h1>Create a New Blog Entry!</h1>
+        
+    <form method="post" action="/newpost">
+        <p><label for="entry_title">Entry Title</label><br />
+        <input name="entry_title" type="text" value="{{entry_title}}" />
+        <span class="error">{{title_error}}</span>
+        </p>
+
+        <p><label for="blog_body">Blog Entry</label><br />
+        <textarea name="blog_body" cols="20" rows="3">{{blog_bodytext}}</textarea>
+        <span class="error">{{body_error}}</span>
+        </p>
+
+        <input type="hidden" name="blogread" id="blogread" value=False />
+
+        <input type="submit" value="Blog It!">
+    </form>
+
+    <hr />
+
+    <h1>Please see below for a listing of previous blog entries.</h1>
+
+{% endblock %}

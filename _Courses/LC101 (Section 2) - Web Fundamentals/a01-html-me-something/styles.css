@@ -1,0 +1,130 @@
+﻿/*define how the page will look*/
+	img
+		{
+			width: 400px;
+			height:200px;
+		}
+	
+	body
+		{
+			background-color: white;
+			font-family: sans-serif;
+		}
+	
+	header
+		{
+		    background-color: #696969;
+		    border-radius: 15px;
+		    padding: 30px;
+		    text-align: center;
+		    font-size: 35px;
+		    color: white;
+		}
+	
+	main
+		{
+			display: flex;
+			width: 98.00%;
+			margin-left: 1.00%;
+		}
+	
+	nav
+		{
+			margin-left: 1.00%;
+			width: 98.00%;
+			background-color: #778899;
+		}
+	
+	footer
+		{
+		    background-color: #696969;
+		    border-radius: 15px;
+		    padding: 18px;
+		    text-align: center;
+		    font-size: 18px;
+		    color: white;
+		}
+	
+	.column
+		{
+			float: left;
+			padding: 5px;
+		}
+
+	div#main_column
+		{
+			background-color: #d3d3d3;
+			width: 75.00%;
+		}
+
+	div#right_column
+		{
+			background-color: #778899;
+			width: 24.00%;
+		}
+		
+	.row:after   /* Clear floats after the columns */
+		{
+		    content: "";
+		    display: table;
+		    clear: both;
+		}
+
+/*control how any tables will look*/
+	table
+		{
+			width: 100%;
+		}
+
+	table, th, td
+		{
+			border: 1px solid black;
+		}
+
+	th
+		{
+			background-color: #add8e6;
+			font-size: 20px;
+		}
+
+	tr:nth-child(odd)
+		{
+			background-color: #778899;
+		}		
+
+	tr:hover
+		{
+			color: #f8f8ff;
+			background-color: #696969;
+		}
+
+/*control how my menus will look */
+	ul.nav
+		{
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			background-color: #778899;
+			overflow: hidden;
+		}
+
+	ul.nav li
+		{
+			float: left;
+			background-color: #778899;
+		}
+	li a
+		{
+			display: block;
+			color: #f8f8ff;
+			text-align: center;
+			font-weight: bold;
+			padding: 14px 16px;
+			text-decoration: none;
+			background-color: #778899;
+		}
+
+	li a:hover
+		{
+			background-color: #add8e6;
+		}

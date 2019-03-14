@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='menus.css')}}" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+	
+	{% block pagetitle %}
+	{% endblock %}
+</head>
+
+<body>
+
+	<div class="header">
+		<h1>Blogz</h1>
+		<div class="navbar">
+			{% if session['username'] %}
+				<a href="/">Home</a>
+				<a href="/logout">Log Out <span class="fas fa-sign-out-alt"></span></a>
+				<a href="/blogs?user_id={{session['user_id']}}">My Blog Postings</a>
+				<a href="/newpost">New Post</a>
+				<a href="/blogs">All Public Posts</a>
+			{% else %}
+				<a href="/">Log In <span class="fas fa-sign-in-alt"></span></a>
+				<a href="/register">Register <span class="fas fa-user-plus"></span></a>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="side">
+			<h2>Side Menu</h2>
+				<p>Date: {{str_now.strftime('%m-%d-%Y')}}</p>
+				{% with messages = get_flashed_messages(with_categories=True) %}
+					<ul>
+					{% for category, message in messages %}
+						<li class="{{category}}">{{message}}</li>
+					{% endfor %}
+					</ul>
+				{% endwith %}
+				{% if session['username'] %}
+					<p><span class="fas fa-user-circle"></span> Logged in as: {{session['username']}}</p>
+				{% endif %}
+				{% block sidecontent %}
+				{% endblock %}
+			<h3>Acknowledgements:</h3>
+			<p>Header photo by Tamás  Mészáros from Pexels</p>
+			<p><a href="https://www.w3schools.com/css/css3_flexbox.asp" target="_blank">Layout courtesy of CSS3 FlexBox.</a></p>
+		</div>
+
+		<div class="main">
+			{% block content %}
+			{% endblock %}
+		</div>
+	</div>
+
+	<footer>
+		<div class="footer">
+			<h2>&copy; Matthew Moore, 2018</h2>
+		</div>
+	</footer>
+</body>
+</html>	

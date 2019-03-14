@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		.error
+		{
+			color: #ff0000;
+			font-style: italic;
+		}
+		
+		body
+		{
+		background-color: white;
+		font-family: sans-serif;
+		}
+
+		header
+		{
+		background-color: #696969;
+		border-radius: 15px;
+		padding: 30px;
+		text-align: center;
+		font-size: 35px;
+		color: white;
+		}
+
+		main
+		{
+		display: flex;
+		width: 98.00%;
+		margin-left: 1.00%;
+		}
+
+		nav
+		{
+		margin-left: 1.00%;
+		width: 98.00%;
+		background-color: #778899;
+		}
+
+		footer
+		{
+		background-color: #696969;
+		border-radius: 15px;
+		padding: 18px;
+		text-align: center;
+		font-size: 18px;
+		color: white;
+		}
+
+		.column
+		{
+		float: left;
+		padding: 5px;
+		}
+
+		div#main_column
+		{
+		background-color: #d3d3d3;
+		width: 75.00%;
+		}
+
+		div#right_column
+		{
+		background-color: #778899;
+		width: 24.00%;
+		}
+
+		.row:after   /* Clear floats after the columns */
+		{
+		content: "";
+		display: table;
+		clear: both;
+		}
+
+	</style>
+	<title>User Signup</title>
+</head>
+
+<body>
+	<header>User Signup</header>
+	<nav class="row">
+		<!--<ul class="nav">
+			<li><a href="#growing_up">Growing Up</a></li>
+			<li><a href="#education">Education</a></li>
+			<li><a href="#career">Career</a></li>
+			<li><a href="#family">Family</a></li>
+			<li><a href="#family">Trips</a></li>
+		</ul>-->
+	</nav>
+	<main class="row">
+		<div class="column" id="main_column">
+            {% block content %}
+            {% endblock %}
+		</div>
+		<div class="column" id="right_column"></div>
+	</main>
+	<footer>&copy; Matthew Moore, 2018</footer>
+</body>
+
+</html>

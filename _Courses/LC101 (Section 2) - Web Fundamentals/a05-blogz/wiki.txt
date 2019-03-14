@@ -1,0 +1,216 @@
+Photo by Tamás  Mészáros from Pexels
+
+get the single user
+    user = request.form['userID']
+
+get the list of blog entries available to the user
+    Blogs.query.filter_by(public=True).all()
+
+if the user marks the post as read, insert a new record in to the crosswalk
+    new_read_post = Blogs(post_id, user_id)
+    db.session.add(new_read_post)
+    db.session.commit()
+
+
+
+{% if blogs|length == 0 %}
+        <p>No blog postings yet.</p>
+    {% else %}
+        {% for blog in blogs %}
+            {% if blog.public %}
+                <h2>{{blog.title}}</h2>
+                <h3>Author: {{blog.author}}</h3>
+                <p>{{blog.blog_body}}</p>
+                <ul style="margin: 0px; padding: 0px; list-style-type: none; display: inline-block; clear: both;">
+                    {% if blog.blogread == 1 %}
+                        <li style="padding-right: 5px; float: left; display: inline-block;"><span class="far fa-envelope" style="font-size:110%;color:forestgreen;"></span></li>
+                    {% else %}
+                        <li style="padding-right: 5px; float: left; display: inline-block;"><span class="far fa-envelope-open" style="font-size:110%;color:red;"></span></li>
+                    {% endif %}
+                    <li style="padding-right: 5px; float: left; display: inline-block;"><a class="body" href="/blogs?blog_id={{blog.id}}" title="Open this specific blog posting."><span class="fas fa-external-link-alt"></span></a></li>
+                </ul>
+                <hr />
+            {% endif %}
+        {% endfor %}
+
+        
+    
+    {% endif %}
+
+
+
+
+
+
+
+{% macro render_pagination(pagination, endpoint) %}
+<div class=pagination>
+{% for blog in blogs.iter_pages() %}
+{% if blog %}
+{% if blog != pagination.page %}
+<a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+{% else %}
+<strong>{{ page }}</strong>
+{% endif %}
+{% else %}
+<span class=ellipsis>…</span>
+{% endif %}
+{% endfor %}
+</div>
+{% endmacro %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {% if blogs|length == 0 %}
+            <p>No blog postings yet.</p>
+        {% else %}
+            {% for blog in blogs %}
+            <h2>{{blog.title}}</h2>
+            <h3>Author: {{blog.author}}</h3>
+            <p>{{blog.blog_body}}</p>
+            <ul style="margin: 0px; padding: 0px; list-style-type: none; display: inline-block; clear: both;">
+            <li style="padding-right: 5px; float: left; display: inline-block;"><a class="body" href="/blogs?blog_id={{blog.id}}" title="Open this specific blog posting."><span class="fas fa-external-link-alt"></span></a></li>
+            </ul>
+            <hr />
+            {% endfor %}
+        {% endif %}
+    <p>Pages: {{blogs}}</p>
+    <p>Blogs type: {{vartype}}</p>
+        {% macro render_pagination(pagination, endpoint) %}
+        <div class=pagination>
+        {%- for page in pagination.iter_pages() %}
+          {% if page %}
+            {% if page != pagination.page %}
+              <a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+            {% else %}
+              <strong>{{ page }}</strong>
+            {% endif %}
+          {% else %}
+            <span class=ellipsis>…</span>
+          {% endif %}
+        {%- endfor %}
+        </div>
+      {% endmacro %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <p>Pages: {{blogs}}</p>
+    <p>total: {{vartype}}</p>
+    <ol>
+        <li>{{blogs.has_next}}</li>
+        <li>{{blogs.has_prev}}</li>
+        <li>{{blogs.items}}</li>
+        <li>{{blogs.iter_pages}}</li>
+        <li>{{blogs.next}}</li>
+        <li>{{blogs.next_num}}</li>
+        <li>{{blogs.page}}</li>
+        <li>{{blogs.pages}}</li>
+        <li>{{blogs.per_page}}</li>
+        <li>{{blogs.prev}}</li>
+        <li>{{blogs.prev_num}}</li>
+        <li>{{blogs.query}}</li>
+        <li>{{blogs.total}}</li>
+    </ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+***original template***
+
+class bestFriends(db.Model):
+
+    __tablename__ = "BestFriends"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, ForeignKey('Users.id'), nullable=False)
+    best_friend_id = db.Column(db.Integer, ForeignKey('Users.id'), nullable=False)
+
+    user = relationship('users', foreign_keys='bestFriends.user_id')
+    best_friend = relationship('users', foreign_keys='bestFriends.best_friend_id')
+
+
+    def __init__(self, user_id, best_friend_id):
+
+        self.user_id = user_id
+        self.best_friend_id = best_friend_id
+
+
+    def __repr__(self):
+        return '{}-{}-{}-{}'.format(self.user_id, self.best_friend_id)
+
+
+
+***my working edits to fit my project***
+*************************************************************************
+*************************************************************************
+
+#configure the persistent class that will be used to make the database changes for reading history
+class ReadingHistory(db.model):
+    historyID = db.Column(db.Integer, primary_key=True)
+    user_ID = db.Column(db.Integer, db.ForeignKey('user.id'))
+    article_ID = db.Column(db.Integer, db.ForeignKey('blogs.id'))
+    MarkedFavorite = db.Column(db.Boolean)
+
+    user = db.relationship('User', backref='owner')
+    articles = db.relationship('Blogs', backref='article')
+
+    def __init__(self, user_ID, article_ID, MarkedFavorite)
+        self.user_ID = user_ID
+        self.article_ID - article_ID
+        self.MarkedFavorite = MarkedFavorite
+
+@app.route('/blogread', methods=['POST', 'GET'])
+def blogread():
+    if request.method == 'POST':
+        user_ID = session['user_id]
+        article_ID = int(request.args.get('blog_id'))
+
+        marked_read = ReadingHistory(user_ID, article_ID)
+        db.session.add(marked_read)
+        db.session.commit()
+
+        flash("Post has been marked as read.", "success")
+        return redirect('/blogs')

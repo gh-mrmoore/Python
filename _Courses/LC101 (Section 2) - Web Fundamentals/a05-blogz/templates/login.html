@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Your Information:</h1>
+    <p>Hello, please enter your information below:</p>
+    {% if error_count is not defined %}
+
+    <hr />
+
+    {% else %}
+
+    <hr />
+    <p>Please address the {{error_count}} error(s) as noted below:</p>
+
+    {% endif %}
+        
+    <form method="post" action="/login">
+        <p><label for="username">Username</label><br />
+        <input name="username" type="text" value="{{uname}}" />
+        </p>
+
+        <p><label for="password">Password</label><br />
+        <input name="password" type="password" />
+        </p>
+
+        <input type="submit" value="Log In!">
+    </form>
+{% endblock %}
