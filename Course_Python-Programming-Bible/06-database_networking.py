@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import socket
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -16,7 +14,7 @@ while True:
     clientsocket, addr = serversocket.accept()
     print("Connection from %s" % str(addr))
 
-    msg = "Thanks for connecting" + "/r/n"
+    msg = "Thanks for connecting" + "\r\n"
     clientsocket.send(msg.encode('ascii'))
     clientsocket.close()
 

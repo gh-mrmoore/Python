@@ -1,0 +1,10 @@
+<vehicles>
+    <car name = "Traverse">
+        <model>LTZ</model>
+        <seats>7</seats>
+    </car>
+    <car name = "Journey">
+        <model>RS</model>
+        <seats>5</seats>
+    </car>
+</vehicles>

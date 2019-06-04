@@ -11,13 +11,15 @@ class BigThread(threading.Thread):
         self.counter = counter
     def run(self):
         print("Starting: ", self.name)
+        threadLock.acquire()
         TimeFunc(self.name, self.counter, 3)
-        print("Exiting ", self.name)
+        #print("Exiting ", self.name)
+        threadLock.release()
 
 def TimeFunc(thread, delay, counter):
     while counter:
-        if exitFlag:
-            thread.exit()
+        #if exitFlag:
+        #    thread.exit()
         time.sleep(delay)
         print("%s: %s" % (thread, time.ctime(time.time())))
         counter -= 1
@@ -31,12 +33,22 @@ def TimeFunc(thread, delay, counter):
 #while 1:
 #    pass
 
+threadLock = threading.Lock()
+threads = []
+
+
 thread1 = BigThread(1, "T1", 1)
 thread2 = BigThread(2, "T2", 2)
 
 thread1.start()
 thread2.start()
-thread1.join()
-thread2.join()
+#thread1.join()
+#thread2.join()
+
+threads.append(thread1)
+threads.append(thread2)
+
+for t in threads:
+    t.join()
 
 print("Exit the main thread")
