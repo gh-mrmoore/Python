@@ -16,3 +16,6 @@ mc01 = MyClass("Name String", 52)
 
 print(mc01.nameString)
 print(mc01.intValue)
+
+for x in range(10):
+    print(x+1)

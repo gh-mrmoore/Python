@@ -1,15 +1,11 @@
-# Calc total weekly sales
-sales_all = sales["weekly_sales"].sum()
+# Create a list of dictionaries with new data
+avocados_list = [
+    {"date": "2019-11-03", "small_sold": 10376832, "large_sold": 7835071},
+    {"date": "2019-11-10", "small_sold": 10717154, "large_sold": 8561348},
+]
 
-# Subset for type A stores, calc total weekly sales
-sales_A = sales[sales["type"] == "A"]["weekly_sales"].sum()
+# Convert list into DataFrame
+avocados_2019 = pd.DataFrame(avocados_list)
 
-# Subset for type B stores, calc total weekly sales
-sales_B = sales[sales["type"] == "B"]["weekly_sales"].sum()
-
-# Subset for type C stores, calc total weekly sales
-sales_C = sales[sales["type"] == "C"]["weekly_sales"].sum()
-
-# Get proportion for each type
-sales_propn_by_type = [sales_A, sales_B, sales_C] / sales_all
-print(sales_propn_by_type)
+# Print the new DataFrame
+print(avocados_2019)
